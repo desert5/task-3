@@ -1,13 +1,6 @@
 import { Request, Response } from "express";
+import { FlightPath } from "../model/flight-path"
 
-export let hi = (req: Request, res: Response) => {
-  res.send("hello");
-};
-
-export let hello = (req: Request, res: Response) => {
-  res.send("how's it going?");
-};
-
-export let awesome = (req: Request, res: Response) => {
-  res.send("EVERYTHING IS AWESOME");
+export let computePath = (from: string, to: string) => {
+  return new FlightPath("We are flying from " + from + " to " + to);
 };

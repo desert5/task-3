@@ -1,4 +1,5 @@
 import express = require("express");
+import { computePath } from "../service/flight-path-service";
 
 const app = express();
 app.set("port", process.env.PORT || 3000);
@@ -8,7 +9,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/path/:from/:to", (req, res) => {
-  res.send("We are flying from " + req.params.from + " to " + req.params.to);
+  res.json(computePath(req.params.from, req.params.to));
 });
 
 export default app;
