@@ -7,6 +7,7 @@ const app = express();
 let airportRepository = new AirportRepository();
 let routeRepository = new RouteRepository();
 let service = new FlightPathService(airportRepository, routeRepository);
+airportRepository.loadCSV("resources/airports.dat")
 
 app.set("port", process.env.PORT || 3000);
 

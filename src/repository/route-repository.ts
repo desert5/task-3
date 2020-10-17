@@ -1,5 +1,5 @@
-const parse = require('csv-parse')
-const fs = require('fs').promises;
+const csv = require('csv-parser');
+const fs = require('fs');
 import {Route} from "../model/route"
 
 export class RouteRepository {
