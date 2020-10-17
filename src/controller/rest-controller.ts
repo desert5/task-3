@@ -21,7 +21,7 @@ app.get("/path/:from/:to", (req, res) => {
 });
 
 app.get("/airports", (req, res) => {
-  res.json(airportRepository.getAirports().slice(0,50));
+  res.json(airportRepository.getAll().slice(0,50));
 });
 
 app.get("/routes", (req, res) => {

@@ -1,7 +1,8 @@
 export class FlightPath {
-    text: string;
-
-    constructor(message: string) {
-        this.text = message;
+    constructor(
+        public readonly path: [],
+        public readonly cost: number
+    ) {
     }
+
 }

@@ -57,7 +57,15 @@ export class AirportRepository {
         return this.store.find((x: Airport) => x.id == id)
     }
 
-    getAirports() {
+    getByIATA(iata: string) {
+        return this.store.find((x: Airport) => x.iata == iata)
+    }
+
+    getByICAO(icao: string) {
+        return this.store.find((x: Airport) => x.icao == icao)
+    }
+
+    getAll() {
         return this.store
     }
 
