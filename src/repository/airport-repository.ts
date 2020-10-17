@@ -4,7 +4,7 @@ import {Airport} from "../model/airport"
 
 export class AirportRepository {
 
-    private store: Map<number, Airport>;
+    private store: Map<number, Airport> = new Map<number, Airport>();
 
     getById(id: number) {
         return this.store.get(id)
@@ -35,7 +35,7 @@ export class AirportRepository {
                     row['10'], row['11'], row['12'], row['13']))
             })
             .on('end', () => {
-                console.log('CSV file successfully processed');
+                console.log('CSV file ' + file + ' successfully processed');
             });
 
         this.store = array
