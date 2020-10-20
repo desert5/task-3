@@ -7,7 +7,7 @@ export class Airport {
       public readonly iata: string,
       public readonly icao: string,
       public readonly latitude: number,
-      public readonly longtitude: number,
+      public readonly longitude: number,
       public readonly altitude: number,
       public readonly timezone: number,
       public readonly dst: string,

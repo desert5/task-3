@@ -6,7 +6,7 @@ export class RouteRepository {
 
     private store: Array<Route> = new Array<Route>();
 
-    getRoutes() {
+    getAll() {
         return this.store
     }
 

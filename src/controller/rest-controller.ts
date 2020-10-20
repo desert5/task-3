@@ -3,15 +3,19 @@ import {FlightPathService} from "../service/flight-path-service";
 import {AirportRepository} from "../repository/airport-repository";
 import {RouteRepository} from "../repository/route-repository";
 import exceptionHandler from "../exception/exception-handler";
+import {AirportService} from "../service/airport-service";
+import {ConnectionService} from "../service/connection-service";
 
 let airportRepository = new AirportRepository();
 let routeRepository = new RouteRepository();
-let service = new FlightPathService(airportRepository, routeRepository);
+let airportService = new AirportService(airportRepository);
+let connectionService = new ConnectionService(airportService);
+let service = new FlightPathService(connectionService);
 let airportsLoaded = airportRepository.loadCSV("resources/airports.dat");
 let routesLoaded = routeRepository.loadCSV("resources/routes.dat");
 
 Promise.all([airportsLoaded, routesLoaded]).then(() => {
-    service.computeRouteGraph()
+    connectionService.initialize(routeRepository.getAll(), airportRepository.getAll(), 100)
 }).catch((reason => console.log(reason)))
 
 const app = express();
@@ -22,12 +26,18 @@ app.get("/", (req, res) => {
 });
 
 app.get("/path/:from/:to", (req, res) => {
-    let flightPath = service.computePath(req.params.from, req.params.to);
-    let detailedPath = flightPath.path.map((node: string) => airportRepository.getById(Number(node)));
+    console.log("We are flying from " + req.params.from + " to " + req.params.to)
+
+    let path = service.computePath(
+        airportService.getAirportByCode(req.params.from).id,
+        airportService.getAirportByCode(req.params.to).id
+    );
+    let pathRepresentation = airportService.mapToIATAorICAO(path.legs[0].start) +
+        path.legs.map((leg) => (leg.isGround ? "=>" : "->") + airportService.mapToIATAorICAO(leg.finish))
     res.json({
-            info: "Calculated path is " + detailedPath.map((airport) => airport.iata).join("->") + ", overall distance " + Math.floor(flightPath.cost / 1000) + " kilometers",
-            details: detailedPath,
-            cost: flightPath.cost
+            info: "Calculated path is " + pathRepresentation + ", overall distance " + Math.floor(path.cost / 1000) + " kilometers",
+            legs: path.legs,
+            cost: path.cost
         }
     );
 });
@@ -37,7 +47,7 @@ app.get("/airports", (req, res) => {
 });
 
 app.get("/routes", (req, res) => {
-    res.json(routeRepository.getRoutes().slice(0, 50));
+    res.json(routeRepository.getAll().slice(0, 50));
 });
 
 app.use(exceptionHandler);
