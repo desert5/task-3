@@ -3,6 +3,8 @@ import {UnableToComputeException} from "./unable-to-compute";
 import {Request, Response} from "express";
 
 const exceptionHandler = (err: Error, req: Request, res: Response, next: any) => {
+    console.error(err)
+
     if (err instanceof UnableToComputeException) {
         return res.status(404).json({
             status: 'error',
