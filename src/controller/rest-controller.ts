@@ -33,7 +33,7 @@ app.get("/path/:from/:to", (req, res) => {
         airportService.getAirportByCode(req.params.to).id
     );
     let pathRepresentation = airportService.mapToIATAorICAO(path.legs[0].start) +
-        path.legs.map((leg) => (leg.isGround ? "=>" : "->") + airportService.mapToIATAorICAO(leg.finish))
+        path.legs.map((leg) => (leg.isGround ? "=>" : "->") + airportService.mapToIATAorICAO(leg.finish)).join("")
     res.json({
             info: "Calculated path is " + pathRepresentation + ", overall distance " + Math.floor(path.cost / 1000) + " kilometers",
             legs: path.legs,

@@ -44,7 +44,7 @@ export class ConnectionService {
     }
 
     public hasGroundConnection(a: number, b: number) {
-        return this.groundConnections.has(a) || this.groundConnections.get(a).has(b)
+        return this.groundConnections.has(a) && this.groundConnections.get(a).has(b)
     }
 
     private mapGroundConnections(airports: Airport[], proximityKm: number) {
