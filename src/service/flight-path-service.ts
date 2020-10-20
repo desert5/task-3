@@ -18,7 +18,7 @@ export class FlightPathService {
             throw new UnableToComputeException("No path between requested airports")
         } else {
             if (legsNumber > 4) {
-                throw new UnableToComputeException("Too many flights to destination, max 4, calculated " + legsNumber)
+                throw new UnableToComputeException("Too many flights to destination, max 4, calculated " + legsNumber + " " + result.path.join("->"))
             } else {
                 return new Path(legs, result.cost);
             }
