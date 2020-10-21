@@ -8,6 +8,10 @@
 
 Sample data provided by https://openflights.org/data.html
 
+To install dependencies execute `npm install`  
+To test execute `npm test`  
+To run execute `npm start`  
+
 Too many legs (5): http://localhost:3000/path/KZN/YOW  
 4 legs: http://localhost:3000/path/SVO/YOW  
 With ground connection: http://localhost:3000/path/SYD/AMI  
