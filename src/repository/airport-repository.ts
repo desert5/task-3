@@ -22,6 +22,10 @@ export class AirportRepository {
         return [...this.store.values()]
     }
 
+    loadValues(values: Airport[]) {
+        values.map((airport => this.store.set(airport.id, airport)))
+    }
+
     loadCSV(file: string) {
         return new Promise((resolve, reject) => {
             console.log('Starting to import file ' + file);

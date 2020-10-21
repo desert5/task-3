@@ -12,16 +12,18 @@ export class FlightPathService {
 
     computePath(from: number, to: number) {
         let result = this.connectionService.calculatePath(from, to);
-        let legs = this.mapToLegs(result.path)
-        let legsNumber = this.calculateLegsNumber(legs);
+
         if (!result.path) {
             throw new UnableToComputeException("No path between requested airports")
+        }
+
+        let legs = this.mapToLegs(result.path)
+        let legsNumber = this.calculateLegsNumber(legs);
+
+        if (legsNumber > 4) {
+            throw new UnableToComputeException("Too many flights to destination, max 4, calculated " + legsNumber + " " + result.path.join("->"))
         } else {
-            if (legsNumber > 4) {
-                throw new UnableToComputeException("Too many flights to destination, max 4, calculated " + legsNumber + " " + result.path.join("->"))
-            } else {
-                return new Path(legs, result.cost);
-            }
+            return new Path(legs, result.cost);
         }
     }
 
